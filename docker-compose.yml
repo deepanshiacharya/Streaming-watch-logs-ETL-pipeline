@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: analytics
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: airflow
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/analytics
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./etl:/opt/airflow/etl
+      - ./data:/opt/airflow/data
+    ports:
+      - "8080:8080"
+    command: bash -c "tail -f /dev/null"
+    restart: always
+
+  superset:
+    image: apache/superset:2.1.0
+    container_name: superset
+    depends_on:
+      - postgres
+    environment:
+      SUPERSET_SECRET_KEY: "a_very_secret_key"
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://airflow:airflow@postgres:5432/analytics
+    volumes:
+      - superset_home:/app/superset_home
+    ports:
+      - "8088:8088"
+    command: >
+      bash -c "
+        superset db upgrade &&
+        superset fab create-admin --username admin --firstname Superset --lastname Admin --email admin@example.com --password admin &&
+        superset init &&
+        superset run -h 0.0.0.0 -p 8088"
+    restart: always
+
+volumes:
+  postgres_data:
+  superset_home:
