@@ -1,0 +1,37 @@
+import pandas as pd
+from sqlalchemy import create_engine, text
+from datetime import datetime
+
+
+df = pd.read_csv("/opt/airflow/data/raw/netflix_watch_logs_20250707_125503.csv")
+
+
+df = df.dropna(subset=["user_id", "content_id", "genre", "device", "country", "watch_start", "watch_duration_min"])
+
+df["watch_start"] = pd.to_datetime(df["watch_start"], errors="coerce")
+df = df.dropna(subset=["watch_start"])
+
+# Feature engineering
+df["watch_year"] = df["watch_start"].dt.year
+df["watch_month"] = df["watch_start"].dt.month
+df["watch_day"] = df["watch_start"].dt.day
+df["watch_weekday"] = df["watch_start"].dt.day_name()
+df["hour_of_day"] = df["watch_start"].dt.hour
+
+df["is_binge"] = df["watch_duration_min"] > 150
+
+
+df.columns = [col.strip().lower().replace(" ", "_") for col in df.columns]
+
+df["load_timestamp"] = datetime.now()
+
+
+engine = create_engine("postgresql://airflow:airflow@postgres:5432/analytics")
+
+with engine.begin() as conn:
+    conn.execute(text("CREATE SCHEMA IF NOT EXISTS data_etl"))
+
+
+df.to_sql("netflix_watch_logs", engine, schema="data_etl", if_exists="append", index=False)
+
+print("ETL completed: data appended to data_etl.netflix_watch_logs.")
