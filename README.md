@@ -45,6 +45,41 @@ The project simulates a **watch logs dataset** with the following columns:
 
 ---
 
+Viewer analytics dashboard:
+![viewer-analytics-devices-genres-time-2025-07-12T16-06-01 359Z](https://github.com/user-attachments/assets/71d4425a-d3ee-4cd5-ab70-6d7abd07d7a8)
+
+**Insights** :
+Total Users:
+→ 20,000 users have engaged with the platform.
+
+Geographic Reach:
+→ Content was watched in 6 different countries, indicating early international traction.
+
+Total Watch Time:
+→ 1.81 million minutes watched — reflects strong user engagement.
+
+Daily Active Users (DAU):
+→ Stable usage observed over the month (approx. 150–180 daily users).
+→ No significant dips — indicates consistent platform reliability.
+
+Device Usage by Country:
+→ TV usage is dominant in the USA and UK.
+→ Mobile is widely used in India and Germany.
+→ Suggests optimizing experience by device and region.
+
+Most Watched Genres:
+→ Drama, Action, Comedy, Romance, Thriller, and Documentary are all equally popular.
+→ Personalization can be implemented as all genres have high viewership.
+
+Time of Engagement (Heatmap):
+→ Peak watch hours are 7 PM to 10 PM.
+→ Highest engagement on weekends (especially Saturday & Sunday).
+→ Ideal for scheduling content drops or system performance scaling.
+
+Points to consider:
+Focus marketing efforts on weekend evenings.
+Ensure responsive design across TV, mobile, and tablets.
+Use watch-time patterns for personalized recommendations.
 
 
 
