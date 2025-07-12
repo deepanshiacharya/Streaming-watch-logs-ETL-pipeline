@@ -45,7 +45,7 @@ The project simulates a **watch logs dataset** with the following columns:
 
 ---
 
-Viewer analytics dashboard:
+Viewer analytics dashboard (Superset):
 ![viewer-analytics-devices-genres-time-2025-07-12T16-06-01 359Z](https://github.com/user-attachments/assets/71d4425a-d3ee-4cd5-ab70-6d7abd07d7a8)
 
 **Insights** :
